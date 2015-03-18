@@ -1,13 +1,13 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
-/**
- * Created by smax on 11.03.15.
- */
 
-import java.io.File;
+import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class Redactor_Test
@@ -17,31 +17,95 @@ public class Redactor_Test
     @Before
     public void setUp()
     {
-        redactor = new Redactor( "ffmpeg" );
+        redactor = new RedactorImpl();
     }
 
     @Test
-    public void testDuration()
+    public void testCommandGetInfoForMP4()
     {
-        String duration = redactor.getDuration( "/home/smax/clip.mp4" );
-        Assert.assertNotNull( duration );
-        Assert.assertEquals( "Duration is not correct", "00:03:38.80", duration );
+        try {
+            VideoInfo info = redactor.getInfo(new File("/home/smax/clip.mp4"));
+
+            Assert.assertNotNull(info);
+            Assert.assertNotNull(info.getBit_rate());
+            Assert.assertNotNull(info.getCreation_time());
+            Assert.assertNotNull(info.getDuration());
+            Assert.assertNotNull(info.getFilename());
+            Assert.assertNotNull(info.getHeight());
+            Assert.assertNotNull(info.getWidth());
+            Assert.assertNotNull(info.getInputMetaData());
+            Assert.assertNotNull(info.getOutputMetaData());
+            Assert.assertEquals("Duration is not correct", "218", info.getDuration().toString());
+            Assert.assertEquals("Bit_rate is not correct", "1250098", info.getBit_rate().toString());
+            Assert.assertEquals("Filename is not correct", "/home/smax/clip.mp4", info.getFilename());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testThumbnails()
-    {
-        redactor.generateThumbnails("/home/smax/clip.mp4",
-                new File( "/home/smax/Thumbs" ), 480, 480, 6 );
-        Assert.assertTrue(true );
+    public void testCommandGetInfoForAvi() {
+        try {
+            VideoInfo info = redactor.getInfo(new File("/home/smax/clip.avi"));
+
+            Assert.assertNotNull(info);
+            Assert.assertNotNull(info.getBit_rate());
+            Assert.assertNotNull(info.getDuration());
+            Assert.assertNotNull(info.getFilename());
+            Assert.assertNotNull(info.getHeight());
+            Assert.assertNotNull(info.getWidth());
+            Assert.assertNotNull(info.getInputMetaData());
+            Assert.assertNotNull(info.getOutputMetaData());
+            Assert.assertEquals("Duration is not correct", "218", info.getDuration().toString());
+            Assert.assertEquals("Bit_rate is not correct", "1250098", info.getBit_rate().toString());
+            Assert.assertEquals("Filename is not correct", "/home/smax/clip.avi", info.getFilename());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testGetFfmpegCommand()
+    public void testCommandCutStartEnd()
     {
-        String ffmpegCommand = redactor.getFfmpegCommand();
-        Assert.assertNotNull(ffmpegCommand);
-        Assert.assertEquals("FfmpegCommand is not correct", "ffmpeg", ffmpegCommand);
+        try {
+
+            String cutStartEnd = redactor.cut(new File("/home/smax/clip.mp4"), new File("/home/smax/out.mp4"), "00:02:00", "00:02:05");
+            Assert.assertNotNull(cutStartEnd);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error. Start time < end time.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    @Test
+    public void testCommandCutDuration()
+    {
+        try {
+
+            String cutDuration = redactor.cut(new File("/home/smax/clip.mp4"), new File("/home/smax/out2.mp4"), "00:02:00", 5);
+            Assert.assertNotNull(cutDuration);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
