@@ -87,7 +87,7 @@ public class RedactorImpl implements Redactor
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("scale=" + width + ":" + height);
-        params.add("-y"); /// TEMP!!!
+        params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
         shellExecuter.executeAndWait(params, null);
@@ -103,7 +103,7 @@ public class RedactorImpl implements Redactor
         params.add(inputFilePattern);
         params.add("-r");
         params.add("30");
-        params.add("-y"); /// TEMP!!!
+        params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
         System.out.println(params.toString());
@@ -125,10 +125,10 @@ public class RedactorImpl implements Redactor
         params.add(duration.toString());
         params.add("-pix_fmt");
         params.add("yuv420p");
-        params.add("-y"); /// TEMP!!!
+        params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.execute(params, null);
+        shellExecuter.executeAndWait(params, null);
     }
 
     /*
@@ -147,7 +147,7 @@ public class RedactorImpl implements Redactor
         params.add(inputFileList.getAbsolutePath());
         params.add("-c");
         params.add("copy");
-        params.add("-y"); /// TEMP!!!
+        params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
         shellExecuter.executeAndWait(params, null);
@@ -162,7 +162,7 @@ public class RedactorImpl implements Redactor
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("vidstabdetect=shakiness=5:show=1");
-        params.add("-y"); /// TEMP!!!
+        params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
         shellExecuter.executeAndWait(params, null);
@@ -175,7 +175,7 @@ public class RedactorImpl implements Redactor
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("vidstabtransform");
-        params.add("-y"); /// TEMP!!!
+        params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
         shellExecuter.executeAndWait(params, null);
