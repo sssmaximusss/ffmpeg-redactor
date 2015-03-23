@@ -76,4 +76,108 @@ public class RedactorImpl implements Redactor
         int seconds = Integer.parseInt(time.substring(6, 8));
         return (hours * 3600 + minutes * 60 + seconds);
     }
+
+
+
+    public void resize(final File inputFile, final File outputFile, final int width, final int height) throws IOException {
+        List<String> params = new ArrayList<String>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("scale=" + width + ":" + height);
+        params.add("-y"); /// TEMP!!!
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, null);
+    }
+
+    public void imageSetToVideo(final String inputFilePattern, final File outputFile, final Integer duration) throws IOException {
+        List<String> params = new ArrayList<String>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-r");
+        params.add("1/" + duration);
+        params.add("-i");
+        params.add(inputFilePattern);
+        params.add("-r");
+        params.add("30");
+        params.add("-y"); /// TEMP!!!
+        params.add(outputFile.getAbsolutePath());
+
+        System.out.println(params.toString());
+
+        shellExecuter.executeAndWait(params, null);
+    }
+
+    public void imageToVideo(final File inputFile, final File outputFile, final Integer duration) throws IOException {
+        List<String> params = new ArrayList<String>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-loop");
+        params.add("1");
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-c:v");
+        params.add("libx264");
+        params.add("-t");
+        params.add(duration.toString());
+        params.add("-pix_fmt");
+        params.add("yuv420p");
+        params.add("-y"); /// TEMP!!!
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.execute(params, null);
+    }
+
+    /*
+    Attention! inputFileList should actually be a plain text file in format:
+        file 'path/to/file1'
+        file 'path/to/file2'
+        ...
+     */
+    public void concatenate(final File inputFileList, final File outputFile) throws IOException {
+        List<String> params = new ArrayList<String>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-f");
+        params.add("concat");
+        params.add("-i");
+        params.add(inputFileList.getAbsolutePath());
+        params.add("-c");
+        params.add("copy");
+        params.add("-y"); /// TEMP!!!
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, null);
+    }
+
+
+    public void stabilizeStep1(final File inputFile, final File outputFile) throws IOException {
+        List<String> params = new ArrayList<String>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("vidstabdetect=shakiness=5:show=1");
+        params.add("-y"); /// TEMP!!!
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, null);
+    }
+    public void stabilizeStep2(final File inputFile, final File outputFile) throws IOException {
+        List<String> params = new ArrayList<String>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("vidstabtransform");
+        params.add("-y"); /// TEMP!!!
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, null);
+    }
 }
