@@ -9,6 +9,7 @@ import java.util.Map;
 public class ShellExecuter {
 
     Map<String, String> env;
+    StringBuilder output;
 
     public ShellExecuter() {
         env = new HashMap<String, String>();
@@ -28,18 +29,24 @@ public class ShellExecuter {
             return new ProcessBuilder(cmds);
         }
 
-        ProcessBuilder process = new ProcessBuilder(cmds);
+        ProcessBuilder processBuilder = new ProcessBuilder(cmds);
 
         if (dir != null) {
-            process.directory(dir);
+            processBuilder.directory(dir);
         }
 
-        Map<String, String> currentEnv = process.environment();
+        Map<String, String> currentEnv = processBuilder.environment();
         for (String key : env.keySet()) {
             currentEnv.put(key, env.get(key));
         }
 
-        return process;
+        /*
+         Merging both StdOutStream and ErrorStream in one, so we could deal with them concurrently
+         Sadly, it doesn't seem to work properly (further investigation needed?)
+         */
+        //processBuilder.redirectErrorStream(true);
+
+        return processBuilder;
     }
 
 
@@ -47,17 +54,24 @@ public class ShellExecuter {
 
         final Process process = execute(params, dir);
         InputStream is = process.getInputStream();
-        InputStreamReader inputReader = new InputStreamReader(is);
-        BufferedReader buffReader = new BufferedReader(inputReader);
+        InputStream es = process.getErrorStream();
 
-        String line = buffReader.readLine();
-        StringBuilder stringBuilder = new StringBuilder();
-        while (line != null) {
-            stringBuilder.append(line);
-            line = buffReader.readLine();
+        output = new StringBuilder();
+
+        StreamConsumer inputConsumer = new StreamConsumer(is);
+        StreamConsumer errorConsumer = new StreamConsumer(es);
+        inputConsumer.start();
+        errorConsumer.start();
+
+        try {
+            process.waitFor();
+            inputConsumer.join();
+            errorConsumer.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-        return stringBuilder.toString();
+        return output.toString();
     }
 
     public void setEnvironmentVariable(String key, String value) {
@@ -65,4 +79,32 @@ public class ShellExecuter {
     }
 
 
+
+    private class StreamConsumer extends Thread {
+        private InputStream inputStream;
+
+        StreamConsumer(InputStream inputStream) {
+            this.inputStream = inputStream;
+        }
+
+        @Override
+        public void run() {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line = null;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    output.append(line);
+                    output.append("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

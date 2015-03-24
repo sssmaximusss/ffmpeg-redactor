@@ -106,8 +106,6 @@ public class RedactorImpl implements Redactor
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        System.out.println(params.toString());
-
         shellExecuter.executeAndWait(params, null);
     }
 
