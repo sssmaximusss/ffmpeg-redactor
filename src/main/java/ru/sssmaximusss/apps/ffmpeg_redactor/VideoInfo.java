@@ -21,6 +21,7 @@ public class VideoInfo {
     private String filename;
     private String creation_time;
 
+    private String duration_string;
     private Integer duration;
     private Integer bit_rate;
 
@@ -103,7 +104,15 @@ public class VideoInfo {
         mData.put("filename", filename);
 
         // Creation_time
-        creation_time = getCleanValue(format, "tags/creation_time");
+        try {
+            creation_time = getCleanValue(format, "tags/creation_time");
+        } catch (JSONException e) {
+
+
+            creation_time = "No data";
+            e.printStackTrace();
+        }
+
         mData.put("creation_time", creation_time);
 
         // Duration
@@ -111,6 +120,7 @@ public class VideoInfo {
         mData.put("duration_float", dString);
         duration = Float.valueOf(dString).intValue();
         mData.put("duration", duration);
+        duration_string = duration_toString(duration);
 
         // Bit_rate
         String brString = getCleanValue(format, "bit_rate");
@@ -219,6 +229,39 @@ public class VideoInfo {
         }
     }
 
+    private String duration_toString(Integer duration) {
+        StringBuilder builder = new StringBuilder();
+        int hours = duration / 3600;
+        if (hours == 0) {
+            builder.append("00");
+        } else {
+            duration -= 3600 * hours;
+            if (hours < 10) {
+                builder.append("0");
+            }
+            builder.append(hours);
+        }
+        builder.append(":");
+
+        int minutes = duration / 60;
+        if (minutes == 0) {
+            builder.append("00");
+        } else {
+            duration -= 60 * minutes;
+            if (minutes < 10) {
+                builder.append("0");
+            }
+            builder.append(minutes);
+        }
+        builder.append(":");
+        if (duration < 10) {
+            builder.append("0");
+        }
+        builder.append(duration);
+        return builder.toString();
+
+    }
+
     public String getFilename() {
         return filename;
     }
@@ -231,8 +274,12 @@ public class VideoInfo {
         return duration;
     }
 
+    public String getDuration_string() {
+        return duration_string;
+    }
+
     public Integer getBit_rate() {
-        return bit_rate;
+        return bit_rate / 1000;
     }
 
     public Integer getHeight() {
@@ -249,6 +296,18 @@ public class VideoInfo {
 
     public String getOutputMetaData() {
         return outputMetaData;
+    }
+
+    public JSONObject getFormat() {
+        return format;
+    }
+
+    public JSONObject getVideoStream() {
+        return videoStream;
+    }
+
+    public JSONObject getAudioStream() {
+        return audioStream;
     }
 
     public boolean isAudio() {

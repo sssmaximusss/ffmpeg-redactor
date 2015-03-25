@@ -8,14 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RedactorImpl implements Redactor
-{
+public class RedactorImpl implements Redactor {
 
     ShellExecuter shellExecuter;
 
 
-    public RedactorImpl()
-    {
+    public RedactorImpl() {
         shellExecuter = new ShellExecuter();
     }
 
@@ -64,6 +62,7 @@ public class RedactorImpl implements Redactor
 
         params.add("-c");
         params.add("copy");
+        params.add("-y");
 
         params.add(outputFile.getAbsolutePath());
 
@@ -76,7 +75,6 @@ public class RedactorImpl implements Redactor
         int seconds = Integer.parseInt(time.substring(6, 8));
         return (hours * 3600 + minutes * 60 + seconds);
     }
-
 
 
     public void resize(final File inputFile, final File outputFile, final int width, final int height) throws IOException {
@@ -165,6 +163,7 @@ public class RedactorImpl implements Redactor
 
         shellExecuter.executeAndWait(params, null);
     }
+
     public void stabilizeStep2(final File inputFile, final File outputFile) throws IOException {
         List<String> params = new ArrayList<String>();
 
