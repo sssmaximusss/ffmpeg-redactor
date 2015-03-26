@@ -25,24 +25,26 @@ public class ShellExecuter {
     }
 
     private ProcessBuilder createProcess(List<String> cmds, File dir) {
-        if (env.isEmpty()) {
-            return new ProcessBuilder(cmds);
-        }
 
         ProcessBuilder processBuilder = new ProcessBuilder(cmds);
 
         if (dir != null) {
+            // Actually sets not where the process will be executed, but where it would look for files
             processBuilder.directory(dir);
         }
 
-        Map<String, String> currentEnv = processBuilder.environment();
-        for (String key : env.keySet()) {
-            currentEnv.put(key, env.get(key));
+        // Do we actually need this?
+        /*
+        if (!env.isEmpty()) {
+            Map<String, String> currentEnv = processBuilder.environment();
+            for (String key : env.keySet()) {
+                currentEnv.put(key, env.get(key));
+            }
         }
+        */
 
         /*
          Merging both StdOutStream and ErrorStream in one, so we could deal with them concurrently
-         Sadly, it doesn't seem to work properly (further investigation needed?)
          */
         //processBuilder.redirectErrorStream(true);
 

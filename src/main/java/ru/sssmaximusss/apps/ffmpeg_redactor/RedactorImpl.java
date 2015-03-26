@@ -11,10 +11,16 @@ import java.util.List;
 public class RedactorImpl implements Redactor {
 
     ShellExecuter shellExecuter;
-
+    File workingDir;
 
     public RedactorImpl() {
-        shellExecuter = new ShellExecuter();
+        this.shellExecuter = new ShellExecuter();
+        this.workingDir = null;
+    }
+
+    public RedactorImpl(File workingDir) {
+        this.shellExecuter = new ShellExecuter();
+        this.workingDir = workingDir;
     }
 
     public String extract(File inputFile) throws IOException {
@@ -28,7 +34,7 @@ public class RedactorImpl implements Redactor {
         params.add("-i");
 
         params.add(inputFile.getAbsolutePath());
-        return shellExecuter.executeAndWait(params, null);
+        return shellExecuter.executeAndWait(params, workingDir);
 
     }
 
@@ -66,7 +72,7 @@ public class RedactorImpl implements Redactor {
 
         params.add(outputFile.getAbsolutePath());
 
-        return shellExecuter.executeAndWait(params, null);
+        return shellExecuter.executeAndWait(params, workingDir);
     }
 
     private int transformTime(String time) {
@@ -88,23 +94,27 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, null);
+        shellExecuter.executeAndWait(params, workingDir);
     }
 
     public void imageSetToVideo(final String inputFilePattern, final File outputFile, final Integer duration) throws IOException {
         List<String> params = new ArrayList<String>();
 
         params.add(DEFAULT_CMD_EXECUTE);
-        params.add("-r");
+        params.add("-framerate");
         params.add("1/" + duration);
         params.add("-i");
         params.add(inputFilePattern);
+        params.add("-c:v");
+        params.add("libx264");
         params.add("-r");
         params.add("30");
+        params.add("-pix_fmt");
+        params.add("yuv420p");
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, null);
+        shellExecuter.executeAndWait(params, workingDir);
     }
 
     public void imageToVideo(final File inputFile, final File outputFile, final Integer duration) throws IOException {
@@ -124,7 +134,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, null);
+        shellExecuter.executeAndWait(params, workingDir);
     }
 
     /*
@@ -146,7 +156,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, null);
+        shellExecuter.executeAndWait(params, workingDir);
     }
 
 
@@ -161,7 +171,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, null);
+        shellExecuter.executeAndWait(params, workingDir);
     }
 
     public void stabilizeStep2(final File inputFile, final File outputFile) throws IOException {
@@ -175,6 +185,6 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, null);
+        shellExecuter.executeAndWait(params, workingDir);
     }
 }
