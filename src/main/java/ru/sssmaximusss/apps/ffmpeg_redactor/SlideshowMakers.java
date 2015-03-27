@@ -7,11 +7,14 @@ import ru.sssmaximusss.apps.ffmpeg_redactor.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import org.apache.log4j.Logger;
 
 /**
  * Created by Mike on 26-Mar-15.
  */
 public class SlideshowMakers {
+
+    private  final Logger logger = Logger.getLogger(SlideshowMakers.class);
 
     private static final String tempImgFilePattern = "%05d.png";
 
@@ -24,21 +27,20 @@ public class SlideshowMakers {
         fileUtils.withTempDir( tempDir -> {
 
             redactor = new RedactorImpl(tempDir.toFile());
-            LinkedList<File> tempFiles = new LinkedList<File>();
 
             int fileNumber = 0;
             for (File inputFile : inputFiles) {
-                File tempFile = new File(tempDir.toString() + File.separator + String.format(tempImgFilePattern, fileNumber++));
                 try {
-                    redactor.resize(inputFile, tempFile, Integer.valueOf(width), Integer.valueOf(height));
-                    tempFiles.add(tempFile);
+                    redactor.resize(inputFile, String.format(tempImgFilePattern, fileNumber++), Integer.valueOf(width), Integer.valueOf(height));
                 } catch (IOException e) {
+                    logger.warn(e, e);
                 }
             }
 
             try {
                 redactor.imageSetToVideo(tempImgFilePattern, outputFile, Integer.parseInt(duration));
             } catch (IOException e) {
+                logger.warn(e, e);
             }
 
         });

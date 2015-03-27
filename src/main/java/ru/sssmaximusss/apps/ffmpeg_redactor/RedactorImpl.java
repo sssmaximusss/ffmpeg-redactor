@@ -1,6 +1,7 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
 import org.json.JSONException;
+import ru.sssmaximusss.apps.ffmpeg_redactor.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -97,6 +98,20 @@ public class RedactorImpl implements Redactor {
         shellExecuter.executeAndWait(params, workingDir);
     }
 
+    public void resize(final File inputFile, final String outputFile, final int width, final int height) throws IOException {
+        List<String> params = new ArrayList<String>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("scale=" + width + ":" + height);
+        params.add("-y");
+        params.add(outputFile);
+
+        shellExecuter.executeAndWait(params, workingDir);
+    }
+
     public void imageSetToVideo(final String inputFilePattern, final File outputFile, final Integer duration) throws IOException {
         List<String> params = new ArrayList<String>();
 
@@ -160,8 +175,8 @@ public class RedactorImpl implements Redactor {
     }
 
 
-    public void stabilizeStep1(final File inputFile, final File outputFile) throws IOException {
-        List<String> params = new ArrayList<String>();
+    public void stabilizeStep1(final File inputFile)  throws IOException {
+        List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-i");
@@ -169,13 +184,13 @@ public class RedactorImpl implements Redactor {
         params.add("-vf");
         params.add("vidstabdetect=shakiness=5:show=1");
         params.add("-y");
-        params.add(outputFile.getAbsolutePath());
+        params.add("temp.mp4");
 
         shellExecuter.executeAndWait(params, workingDir);
     }
 
     public void stabilizeStep2(final File inputFile, final File outputFile) throws IOException {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-i");
