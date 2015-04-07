@@ -1,6 +1,6 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
-import org.json.JSONException;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,15 +11,15 @@ public interface Redactor {
 
     public static final String DEFAULT_CMD_GETINFO = "ffprobe";
 
-    public String extract(File file) throws IOException;
+    public String extract(final File file) throws IOException;
 
-    public VideoInfo getInfo(File inputFile) throws IOException, JSONException;
+    public VideoInfo getInfo(final File inputFile) throws IOException, ClassNotFoundException;
 
     //ffmpeg -i inputFile -ss 00:01:00 -to 00:02:00
-    public String cut(File inputFile, File outputFile, String start, String end) throws IOException;
+    public String cut(final File inputFile,final File outputFile, final String start, final String end) throws IOException;
 
     //ffmpeg -i inputFile -ss 00:01:00 -t 60
-    public String cut(File inputFile, File outputFile, String start, Integer duration) throws IOException;
+    public String cut(final File inputFile,final File outputFile, final String start, final Integer duration) throws IOException;
 
     public void resize(final File inputFile, final File outputFile, final int width, final int height) throws IOException;
 

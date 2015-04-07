@@ -1,12 +1,12 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
-import org.json.JSONException;
-import ru.sssmaximusss.apps.ffmpeg_redactor.utils.FileUtils;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class RedactorImpl implements Redactor {
@@ -24,24 +24,36 @@ public class RedactorImpl implements Redactor {
         this.workingDir = workingDir;
     }
 
-    public String extract(File inputFile) throws IOException {
+    public String extract(final File inputFile) throws IOException {
 
         List<String> params = new ArrayList<String>();
 
         //ffprobe
         params.add(DEFAULT_CMD_GETINFO);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
         params.add("-show_format");
         params.add("-show_streams");
-        params.add("-i");
-
-        params.add(inputFile.getAbsolutePath());
+        params.add("-print_format");
+        params.add("json");
+        params.add("-v");
+        params.add("quiet");
         return shellExecuter.executeAndWait(params, workingDir);
 
     }
 
     @Override
-    public VideoInfo getInfo(final File inputFile) throws IOException, JSONException {
-        return new VideoInfo(this, inputFile);
+    public VideoInfo getInfo(final File inputFile) throws IOException, NoClassDefFoundError {
+        String rawInfo = extract(inputFile);
+        VideoInfoParser parser = new VideoInfoParser();
+        Map<String, Map<String, Object>> parsingInfo = parser.parse(rawInfo);
+
+        VideoInfoDirector director = new VideoInfoDirector();
+        VideoInfoBuilder currentBuilder = new CurrentVideoInfoBuilder();
+        director.setVideoInfoBuilder(currentBuilder);
+        director.constructVideoInfo(parsingInfo);
+
+        return director.getVideoInfo();
     }
 
     @Override
