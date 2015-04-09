@@ -31,7 +31,5 @@ public interface Redactor {
 
     public void concatenate(final File inputFileList, final File outputFile) throws IOException;
 
-    public void stabilizeStep1(final File inputFile) throws IOException;
-
-    public void stabilizeStep2(final File inputFile, final File outputFile) throws IOException;
+    public void stabilize(final File inputFile, final File outputFile) throws IOException;
 }

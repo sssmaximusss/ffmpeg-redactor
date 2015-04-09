@@ -15,8 +15,7 @@ public class RedactorImpl implements Redactor {
     File workingDir;
 
     public RedactorImpl() {
-        this.shellExecuter = new ShellExecuter();
-        this.workingDir = null;
+        this(null);
     }
 
     public RedactorImpl(File workingDir) {
@@ -187,7 +186,7 @@ public class RedactorImpl implements Redactor {
     }
 
 
-    public void stabilizeStep1(final File inputFile)  throws IOException {
+    public void stabilize(final File inputFile, final File outputFile)  throws IOException {
         List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
@@ -199,10 +198,8 @@ public class RedactorImpl implements Redactor {
         params.add("temp.mp4");
 
         shellExecuter.executeAndWait(params, workingDir);
-    }
 
-    public void stabilizeStep2(final File inputFile, final File outputFile) throws IOException {
-        List<String> params = new ArrayList<>();
+        params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-i");

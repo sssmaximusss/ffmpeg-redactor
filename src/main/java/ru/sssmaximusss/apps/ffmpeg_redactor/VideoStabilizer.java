@@ -22,13 +22,7 @@ public class VideoStabilizer {
             redactor = new RedactorImpl(tempDir.toFile());
 
             try {
-                redactor.stabilizeStep1(inputFile);
-            } catch (IOException e) {
-                logger.warn(e, e);
-            }
-
-            try {
-                redactor.stabilizeStep2(inputFile, outputFile);
+                redactor.stabilize(inputFile, outputFile);
             } catch (IOException e) {
                 logger.warn(e, e);
             }
