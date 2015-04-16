@@ -2,24 +2,55 @@ package ru.sssmaximusss.apps.ffmpeg_redactor.Info;
 
 import java.util.Map;
 
-public abstract class VideoInfoBuilder {
-    protected VideoInfo videoInfo;
+public class VideoInfoBuilder {
+    protected VideoInfo videoInfo = new VideoInfo();
 
-    public VideoInfo getVideoInfo() {
+    public VideoInfo build() {
         return videoInfo;
     }
 
-    public void createNewVideoInfo() {
-        videoInfo = new VideoInfo();
+    public VideoInfoBuilder withFilename(String filename) {
+        videoInfo.setFilename(filename);
+        return this;
     }
 
-    public abstract void buildFilename(String filename);
-    public abstract void buildCreationTime(String creationTime);
-    public abstract void buildDurationString(String durationString);
-    public abstract void buildDuration(Integer duration);
-    public abstract void buildBit_rate(Integer bit_rate);
-    public abstract void buildHeight(Integer height);
-    public abstract void buildWidth(Integer width);
-    public abstract void buildVideoStream(Map<String, Object> videoStream);
-    public abstract void buildAudioStream(Map<String, Object> audioStream);
+    public VideoInfoBuilder withCreationTime(String creationTime) {
+        videoInfo.setCreationTime(creationTime);
+        return this;
+    }
+
+    public VideoInfoBuilder withDurationString(String durationString) {
+        videoInfo.setDurationString(durationString);
+        return this;
+    }
+
+    public VideoInfoBuilder withDuration(Integer duration) {
+        videoInfo.setDuration(duration);
+        return this;
+    }
+
+    public VideoInfoBuilder withBit_rate(Integer bit_rate) {
+        videoInfo.setBit_rate(bit_rate);
+        return this;
+    }
+
+    public VideoInfoBuilder withHeight(Integer height) {
+        videoInfo.setHeight(height);
+        return this;
+    }
+
+    public VideoInfoBuilder withWidth(Integer width) {
+        videoInfo.setWidth(width);
+        return this;
+    }
+
+    public VideoInfoBuilder withVideoStream(Map<String, Object> videoStream) {
+        videoInfo.setVideoStream(videoStream);
+        return this;
+    }
+
+    public VideoInfoBuilder withAudioStream(Map<String, Object> audioStream) {
+        videoInfo.setAudioStream(audioStream);
+        return this;
+    }
 }

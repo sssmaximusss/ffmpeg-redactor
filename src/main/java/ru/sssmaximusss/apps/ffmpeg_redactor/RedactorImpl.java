@@ -1,6 +1,8 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
-import ru.sssmaximusss.apps.ffmpeg_redactor.Info.*;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfo;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfoDirector;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfoParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,11 +50,9 @@ public class RedactorImpl implements Redactor {
         Map<String, Map<String, Object>> parsingInfo = parser.parse(rawInfo);
 
         VideoInfoDirector director = new VideoInfoDirector();
-        VideoInfoBuilder currentBuilder = new CurrentVideoInfoBuilder();
-        director.setVideoInfoBuilder(currentBuilder);
-        director.constructVideoInfo(parsingInfo);
 
-        return director.getVideoInfo();
+        return director.constructVideoInfo(parsingInfo);
+
     }
 
     @Override
