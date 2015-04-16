@@ -1,23 +1,18 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
-import ru.sssmaximusss.apps.ffmpeg_redactor.Redactor;
-import ru.sssmaximusss.apps.ffmpeg_redactor.RedactorImpl;
+import org.apache.log4j.Logger;
 import ru.sssmaximusss.apps.ffmpeg_redactor.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import org.apache.log4j.Logger;
 
 /**
  * Created by Mike on 26-Mar-15.
  */
 public class SlideshowMakers {
 
-    private  final Logger logger = Logger.getLogger(SlideshowMakers.class);
-
     private static final String tempImgFilePattern = "%05d.png";
-
+    private final Logger logger = Logger.getLogger(SlideshowMakers.class);
     private Redactor redactor;
 
 
