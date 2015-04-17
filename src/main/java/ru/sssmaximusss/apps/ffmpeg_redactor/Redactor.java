@@ -11,6 +11,8 @@ public interface Redactor {
 
     public static final String DEFAULT_CMD_GETINFO = "ffprobe";
 
+    public static final String DEFAULT_CMD_PLAY = "ffplay";
+
     public String extract(final File file) throws IOException;
 
     public VideoInfo getInfo(final File inputFile) throws IOException, ClassNotFoundException;
@@ -32,4 +34,16 @@ public interface Redactor {
     public void concatenate(final File inputFileList, final File outputFile) throws IOException;
 
     public void stabilize(final File inputFile, final File outputFile) throws IOException;
+
+    public void rotate(final File inputFile, final File outputFile, final int degree) throws IOException;
+
+    public void controlSpeed(final File inputFile, final File outputFile, final float tempo) throws IOException;
+
+    public void setContrast(final File inputFile, final File outputFile, final float contrast) throws IOException;
+
+    public void setBrightness(final File inputFile, final File outputFile, final float brightness) throws IOException;
+
+    public void setSaturation(final File inputFile, final File outputFile, final float saturation) throws IOException;
+
+    public void setAllSetting(final File inputFile, final File outputFile, final float contrast, final float brightness, final float saturation) throws IOException;
 }
