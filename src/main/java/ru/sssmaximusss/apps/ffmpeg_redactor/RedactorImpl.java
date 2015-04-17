@@ -223,7 +223,7 @@ public class RedactorImpl implements Redactor {
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
-        params.add("transpose=" + degree);
+        params.add("rotate=" + degree + "*PI/2");
         params.add("-y");
         params.add("-strict");
         params.add("-2");
@@ -311,7 +311,7 @@ public class RedactorImpl implements Redactor {
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
-        params.add("eq=1.0:" + contrast + ":" + brightness + ":" + saturation);
+        params.add("eq=" + contrast + ":" + brightness + ":" + saturation);
         params.add("-y");
         params.add("-strict");
         params.add("-2");
