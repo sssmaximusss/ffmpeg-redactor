@@ -20,20 +20,27 @@ public class RedactorImpl implements Redactor {
     private final ShellExecuter shellExecuter;
     private final File workingDir;
 
+    private final String ffmpegCmd;
+    private final String ffprobeCmd;
+    private final String ffplayCmd;
+
     public RedactorImpl() {
-        this(null);
+        this(null, DEFAULT_CMD_EXECUTE, DEFAULT_CMD_GETINFO, DEFAULT_CMD_PLAY);
     }
 
-    public RedactorImpl(File workingDir) {
+    public RedactorImpl(File workingDir, String ffmpegCmd, String ffprobeCmd, String ffplayCmd) {
         this.shellExecuter = new ShellExecuter();
         this.workingDir = workingDir;
+        this.ffmpegCmd = ffmpegCmd;
+        this.ffprobeCmd = ffprobeCmd;
+        this.ffplayCmd = ffplayCmd;
     }
 
     public String extract(final File inputFile) throws IOException {
         List<String> params = new ArrayList<>();
 
         //ffprobe
-        params.add(DEFAULT_CMD_GETINFO);
+        params.add(ffprobeCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-show_format");
@@ -73,7 +80,7 @@ public class RedactorImpl implements Redactor {
         List<String> params = new ArrayList<>();
 
         //ffmpeg
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-ss");
@@ -101,7 +108,7 @@ public class RedactorImpl implements Redactor {
     public void resize(final File inputFile, final File outputFile, final int width, final int height) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -115,7 +122,7 @@ public class RedactorImpl implements Redactor {
     public void resize(final File inputFile, final String outputFile, final int width, final int height) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -129,7 +136,7 @@ public class RedactorImpl implements Redactor {
     public void imageSetToVideo(final String inputFilePattern, final File outputFile, final Integer duration) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-framerate");
         params.add("1/" + duration);
         params.add("-i");
@@ -149,7 +156,7 @@ public class RedactorImpl implements Redactor {
     public void imageToVideo(final File inputFile, final File outputFile, final Integer duration) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-loop");
         params.add("1");
         params.add("-i");
@@ -175,7 +182,7 @@ public class RedactorImpl implements Redactor {
     public void concatenate(final File inputFileList, final File outputFile) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-f");
         params.add("concat");
         params.add("-i");
@@ -192,7 +199,7 @@ public class RedactorImpl implements Redactor {
     public void stabilize(final File inputFile, final File outputFile)  throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -206,7 +213,7 @@ public class RedactorImpl implements Redactor {
 
         params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -223,7 +230,7 @@ public class RedactorImpl implements Redactor {
     public void rotate(final File inputFile, final File outputFile, final int degree) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -241,7 +248,7 @@ public class RedactorImpl implements Redactor {
     public void controlSpeed(final File inputFile, final File outputFile, final float tempo) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -260,7 +267,7 @@ public class RedactorImpl implements Redactor {
     public void setContrast(final File inputFile, final File outputFile, final float contrast) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -277,7 +284,7 @@ public class RedactorImpl implements Redactor {
     public void setBrightness(final File inputFile, final File outputFile, final float brightness) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -294,7 +301,7 @@ public class RedactorImpl implements Redactor {
     public void setSaturation(final File inputFile, final File outputFile, final float saturation) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
@@ -311,7 +318,7 @@ public class RedactorImpl implements Redactor {
     public void setAllSetting(File inputFile, File outputFile, float contrast, float brightness, float saturation) throws IOException {
         List<String> params = new ArrayList<>();
 
-        params.add(DEFAULT_CMD_EXECUTE);
+        params.add(ffmpegCmd);
         params.add("-i");
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
