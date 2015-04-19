@@ -1,6 +1,8 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
-import ru.sssmaximusss.apps.ffmpeg_redactor.Info.*;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfo;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfoDirector;
+import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfoParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +26,7 @@ public class RedactorImpl implements Redactor {
     }
 
     public String extract(final File inputFile) throws IOException {
-
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         //ffprobe
         params.add(DEFAULT_CMD_GETINFO);
@@ -48,11 +49,9 @@ public class RedactorImpl implements Redactor {
         Map<String, Map<String, Object>> parsingInfo = parser.parse(rawInfo);
 
         VideoInfoDirector director = new VideoInfoDirector();
-        VideoInfoBuilder currentBuilder = new CurrentVideoInfoBuilder();
-        director.setVideoInfoBuilder(currentBuilder);
-        director.constructVideoInfo(parsingInfo);
 
-        return director.getVideoInfo();
+        return director.constructVideoInfo(parsingInfo);
+
     }
 
     @Override
@@ -67,7 +66,7 @@ public class RedactorImpl implements Redactor {
 
     @Override
     public String cut(final File inputFile, final File outputFile, final String start, final Integer duration) throws IOException {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         //ffmpeg
         params.add(DEFAULT_CMD_EXECUTE);
@@ -96,7 +95,7 @@ public class RedactorImpl implements Redactor {
 
 
     public void resize(final File inputFile, final File outputFile, final int width, final int height) throws IOException {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-i");
@@ -110,7 +109,7 @@ public class RedactorImpl implements Redactor {
     }
 
     public void resize(final File inputFile, final String outputFile, final int width, final int height) throws IOException {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-i");
@@ -124,7 +123,7 @@ public class RedactorImpl implements Redactor {
     }
 
     public void imageSetToVideo(final String inputFilePattern, final File outputFile, final Integer duration) throws IOException {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-framerate");
@@ -144,7 +143,7 @@ public class RedactorImpl implements Redactor {
     }
 
     public void imageToVideo(final File inputFile, final File outputFile, final Integer duration) throws IOException {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-loop");
@@ -170,7 +169,7 @@ public class RedactorImpl implements Redactor {
         ...
      */
     public void concatenate(final File inputFileList, final File outputFile) throws IOException {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         params.add(DEFAULT_CMD_EXECUTE);
         params.add("-f");
@@ -195,6 +194,8 @@ public class RedactorImpl implements Redactor {
         params.add("-vf");
         params.add("vidstabdetect=shakiness=5:show=1");
         params.add("-y");
+        params.add("-strict");
+        params.add("-2");
         params.add("temp.mp4");
 
         shellExecuter.executeAndWait(params, workingDir);
@@ -207,6 +208,113 @@ public class RedactorImpl implements Redactor {
         params.add("-vf");
         params.add("vidstabtransform");
         params.add("-y");
+        params.add("-strict");
+        params.add("-2");
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, workingDir);
+    }
+
+    @Override
+    public void rotate(final File inputFile, final File outputFile, final int degree) throws IOException {
+        List<String> params = new ArrayList<>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("rotate=" + degree + "*PI/2");
+        params.add("-y");
+        params.add("-strict");
+        params.add("-2");
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, workingDir);
+
+    }
+
+    @Override
+    public void controlSpeed(final File inputFile, final File outputFile, final float tempo) throws IOException {
+        List<String> params = new ArrayList<>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("setpts=" + 1/tempo + "*PTS");
+        params.add("-af");
+        params.add("atempo=" + tempo);
+        params.add("-y");
+        params.add("-strict");
+        params.add("-2");
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, workingDir);
+    }
+
+    @Override
+    public void setContrast(final File inputFile, final File outputFile, final float contrast) throws IOException {
+        List<String> params = new ArrayList<>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("eq=contrast=" + contrast);
+        params.add("-y");
+        params.add("-strict");
+        params.add("-2");
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, workingDir);
+    }
+
+    @Override
+    public void setBrightness(final File inputFile, final File outputFile, final float brightness) throws IOException {
+        List<String> params = new ArrayList<>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("eq=brightness=" + brightness);
+        params.add("-y");
+        params.add("-strict");
+        params.add("-2");
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, workingDir);
+    }
+
+    @Override
+    public void setSaturation(final File inputFile, final File outputFile, final float saturation) throws IOException {
+        List<String> params = new ArrayList<>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("eq=saturation=" + saturation);
+        params.add("-y");
+        params.add("-strict");
+        params.add("-2");
+        params.add(outputFile.getAbsolutePath());
+
+        shellExecuter.executeAndWait(params, workingDir);
+    }
+
+    @Override
+    public void setAllSetting(File inputFile, File outputFile, float contrast, float brightness, float saturation) throws IOException {
+        List<String> params = new ArrayList<>();
+
+        params.add(DEFAULT_CMD_EXECUTE);
+        params.add("-i");
+        params.add(inputFile.getAbsolutePath());
+        params.add("-vf");
+        params.add("eq=" + contrast + ":" + brightness + ":" + saturation);
+        params.add("-y");
+        params.add("-strict");
+        params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
         shellExecuter.executeAndWait(params, workingDir);

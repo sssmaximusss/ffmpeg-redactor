@@ -23,7 +23,7 @@ public class VideoInfoParser {
         formatInfo.put("creation_time", formatNode.path("tags").path("creation_time").asText());
         formatInfo.put("duration", formatNode.path("duration").asInt());
         formatInfo.put("duration_string", duration_toString(formatNode.path("duration").asInt()));
-        formatInfo.put("bit_rate", formatNode.path("bit_rate").asInt());
+        formatInfo.put("bit_rate", formatNode.path("bit_rate").asInt() / 1000);
 
         Map<String, Map<String, Object>> parsingInfo = new HashMap<>();
         parsingInfo.put("format", formatInfo);
@@ -33,7 +33,7 @@ public class VideoInfoParser {
 
             String type = streamNode.path("codec_type").asText();
             streamInfo.put("codec_name", streamNode.path("codec_name").asText());
-            streamInfo.put("bit_rate", streamNode.path("bit_rate").asInt());
+            streamInfo.put("bit_rate", streamNode.path("bit_rate").asInt() / 1000);
 
             if (Objects.equals(type, "video")) {
                 streamInfo.put("width", streamNode.path("width").asInt());
