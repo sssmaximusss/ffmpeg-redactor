@@ -38,14 +38,14 @@ public class Redactor_Test {
             Assert.assertEquals("Creation time is not correct.", info.getCreationTime(), "2015-02-24 00:02:27");
             Assert.assertEquals("Duration is not correct", info.getDuration().longValue(), 218);
             Assert.assertEquals("Duration(string) is not correct.", info.getDurationString(), "00:03:38");
-            Assert.assertEquals("Bit_rate is not correct", info.getBit_rate().longValue(), 1250098);
+            Assert.assertEquals("Bit_rate is not correct", info.getBit_rate().longValue(), 1250);
             Assert.assertEquals("Width is not correct.", info.getWidth().longValue(), 1280);
             Assert.assertEquals("Height is not correct.", info.getHeight().longValue(), 720);
             Assert.assertEquals("DAR is not correct.", info.getVideoStream().get("dar").toString(), "16:9");
             Assert.assertEquals("Video codec is not correct.", info.getVideoStream().get("codec_name").toString(), "h264");
-            Assert.assertEquals("Video bit_rate is not correct.", info.getVideoStream().get("bit_rate"), 1055616);
+            Assert.assertEquals("Video bit_rate is not correct.", info.getVideoStream().get("bit_rate"), 1055);
             Assert.assertEquals("Audio codec is not correct.", info.getAudioStream().get("codec_name").toString(), "aac");
-            Assert.assertEquals("Audio bit_rate is not correct.", info.getAudioStream().get("bit_rate"), 192008);
+            Assert.assertEquals("Audio bit_rate is not correct.", info.getAudioStream().get("bit_rate"), 192);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,14 +71,14 @@ public class Redactor_Test {
             Assert.assertEquals("Creation time is not correct.", info.getCreationTime(), "");
             Assert.assertEquals("Duration is not correct", info.getDuration().longValue(), 218);
             Assert.assertEquals("Duration(string) is not correct.", info.getDurationString(), "00:03:38");
-            Assert.assertEquals("Bit_rate is not correct", info.getBit_rate().longValue(), 861675);
+            Assert.assertEquals("Bit_rate is not correct", info.getBit_rate().longValue(), 861);
             Assert.assertEquals("Width is not correct.", info.getWidth().longValue(), 1280);
             Assert.assertEquals("Height is not correct.", info.getHeight().longValue(), 720);
             Assert.assertEquals("DAR is not correct.", info.getVideoStream().get("dar").toString(), "16:9");
             Assert.assertEquals("Video codec is not correct.", info.getVideoStream().get("codec_name").toString(), "mpeg4");
-            Assert.assertEquals("Video bit_rate is not correct.", info.getVideoStream().get("bit_rate"), 659224);
+            Assert.assertEquals("Video bit_rate is not correct.", info.getVideoStream().get("bit_rate"), 659);
             Assert.assertEquals("Audio codec is not correct.", info.getAudioStream().get("codec_name").toString(), "ac3");
-            Assert.assertEquals("Audio bit_rate is not correct.", info.getAudioStream().get("bit_rate"), 192000);
+            Assert.assertEquals("Audio bit_rate is not correct.", info.getAudioStream().get("bit_rate"), 192);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -212,15 +212,15 @@ public class Redactor_Test {
             Assert.assertEquals("Filename is not correct.", parsingInfo.get("format").get("filename").toString(), "clip.mp4");
             Assert.assertEquals("Duration is not correct.", parsingInfo.get("format").get("duration"), 218);
             Assert.assertEquals("Duration(string) is not correct.", parsingInfo.get("format").get("duration_string").toString(), "00:03:38");
-            Assert.assertEquals("Bit_rate is not correct.", parsingInfo.get("format").get("bit_rate"), 1250098);
+            Assert.assertEquals("Bit_rate is not correct.", parsingInfo.get("format").get("bit_rate"), 1250);
             Assert.assertEquals("Creation time is not correct.", parsingInfo.get("format").get("creation_time").toString(), "2015-02-24 00:02:27");
             Assert.assertEquals("Width is not correct.", parsingInfo.get("video").get("width"), 1280);
             Assert.assertEquals("Height is not correct.", parsingInfo.get("video").get("height"), 720);
             Assert.assertEquals("DAR is not correct.", parsingInfo.get("video").get("dar").toString(), "16:9");
             Assert.assertEquals("Video codec is not correct.", parsingInfo.get("video").get("codec_name").toString(), "h264");
-            Assert.assertEquals("Video bit_rate is not correct.", parsingInfo.get("video").get("bit_rate"), 1055616);
+            Assert.assertEquals("Video bit_rate is not correct.", parsingInfo.get("video").get("bit_rate"), 1055);
             Assert.assertEquals("Audio codec is not correct.", parsingInfo.get("audio").get("codec_name").toString(), "aac");
-            Assert.assertEquals("Audio bit_rate is not correct.", parsingInfo.get("audio").get("bit_rate"), 192008);
+            Assert.assertEquals("Audio bit_rate is not correct.", parsingInfo.get("audio").get("bit_rate"), 192);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoClassDefFoundError e) {
@@ -259,5 +259,12 @@ public class Redactor_Test {
         }
     }
 
-
+    @Test
+    public void testCommandRotate() {
+        try {
+            redactor.rotate(new File("/home/smax/input.mp4"), new File("/home/smax/rotate_input.mp4"), 2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
