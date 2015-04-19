@@ -224,6 +224,8 @@ public class RedactorImpl implements Redactor {
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("rotate=" + degree + "*PI/2");
+        params.add("-c");
+        params.add("copy");
         params.add("-y");
         params.add("-strict");
         params.add("-2");
@@ -244,6 +246,8 @@ public class RedactorImpl implements Redactor {
         params.add("setpts=" + 1/tempo + "*PTS");
         params.add("-af");
         params.add("atempo=" + tempo);
+        params.add("-c");
+        params.add("copy");
         params.add("-y");
         params.add("-strict");
         params.add("-2");
@@ -261,6 +265,8 @@ public class RedactorImpl implements Redactor {
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("eq=contrast=" + contrast);
+        params.add("-c");
+        params.add("copy");
         params.add("-y");
         params.add("-strict");
         params.add("-2");
@@ -278,6 +284,8 @@ public class RedactorImpl implements Redactor {
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("eq=brightness=" + brightness);
+        params.add("-c");
+        params.add("copy");
         params.add("-y");
         params.add("-strict");
         params.add("-2");
@@ -295,6 +303,8 @@ public class RedactorImpl implements Redactor {
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("eq=saturation=" + saturation);
+        params.add("-c");
+        params.add("copy");
         params.add("-y");
         params.add("-strict");
         params.add("-2");
@@ -312,6 +322,8 @@ public class RedactorImpl implements Redactor {
         params.add(inputFile.getAbsolutePath());
         params.add("-vf");
         params.add("eq=" + contrast + ":" + brightness + ":" + saturation);
+        params.add("-c");
+        params.add("copy");
         params.add("-y");
         params.add("-strict");
         params.add("-2");
