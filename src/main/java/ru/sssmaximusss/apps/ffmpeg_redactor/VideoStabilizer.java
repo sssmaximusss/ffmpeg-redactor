@@ -19,7 +19,7 @@ public class VideoStabilizer {
         FileUtils fileUtils = new FileUtils();
         fileUtils.withTempDir( tempDir -> {
 
-            redactor = new RedactorImpl(tempDir.toFile());
+            redactor = new RedactorImpl(tempDir.toFile(), "");
 
             try {
                 redactor.stabilize(inputFile, outputFile);

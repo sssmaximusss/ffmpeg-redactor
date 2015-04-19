@@ -21,7 +21,7 @@ public class SlideshowMakers {
         FileUtils fileUtils = new FileUtils();
         fileUtils.withTempDir( tempDir -> {
 
-            redactor = new RedactorImpl(tempDir.toFile());
+            redactor = new RedactorImpl(tempDir.toFile(), "");
 
             int fileNumber = 0;
             for (File inputFile : inputFiles) {

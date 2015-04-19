@@ -25,15 +25,15 @@ public class RedactorImpl implements Redactor {
     private final String ffplayCmd;
 
     public RedactorImpl() {
-        this(null, DEFAULT_CMD_EXECUTE, DEFAULT_CMD_GETINFO, DEFAULT_CMD_PLAY);
+        this(null, "");
     }
 
-    public RedactorImpl(File workingDir, String ffmpegCmd, String ffprobeCmd, String ffplayCmd) {
+    public RedactorImpl(File workingDir, String ffmpegPath) {
         this.shellExecuter = new ShellExecuter();
         this.workingDir = workingDir;
-        this.ffmpegCmd = ffmpegCmd;
-        this.ffprobeCmd = ffprobeCmd;
-        this.ffplayCmd = ffplayCmd;
+        this.ffmpegCmd = ffmpegPath + DEFAULT_CMD_EXECUTE;
+        this.ffprobeCmd = ffmpegPath + DEFAULT_CMD_GETINFO;
+        this.ffplayCmd = ffmpegPath + DEFAULT_CMD_PLAY;
     }
 
     public String extract(final File inputFile) throws IOException {
