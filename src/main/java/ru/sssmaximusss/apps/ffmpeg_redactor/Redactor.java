@@ -7,12 +7,6 @@ import java.io.IOException;
 
 public interface Redactor {
 
-    public static final String DEFAULT_CMD_EXECUTE = "ffmpeg";
-
-    public static final String DEFAULT_CMD_GETINFO = "ffprobe";
-
-    public static final String DEFAULT_CMD_PLAY = "ffplay";
-
     public String extract(final File file) throws IOException;
 
     public VideoInfo getInfo(final File inputFile) throws IOException, ClassNotFoundException;

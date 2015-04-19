@@ -13,6 +13,10 @@ import java.util.Map;
 
 public class RedactorImpl implements Redactor {
 
+    public static final String DEFAULT_CMD_EXECUTE = "ffmpeg";
+    public static final String DEFAULT_CMD_GETINFO = "ffprobe";
+    public static final String DEFAULT_CMD_PLAY = "ffplay";
+
     ShellExecuter shellExecuter;
     File workingDir;
 
