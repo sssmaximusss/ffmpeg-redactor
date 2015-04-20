@@ -19,15 +19,15 @@ public interface Redactor {
 
     public void resize(final File inputFile, final File outputFile, final int width, final int height) throws IOException;
 
-    public void resize(final File inputFile, final String outputFile, final int width, final int height) throws IOException;
+    public void resize(final File inputFile, final String outputFile, final File workDir, final int width, final int height) throws IOException;
 
-    public void imageSetToVideo(final String inputFilePattern, final File outputFile, final Integer duration) throws IOException;
+    public void imageSetToVideo(final String inputFilePattern, final File outputFile, final File workDir, final Integer duration) throws IOException;
 
     public void imageToVideo(final File inputFile, final File outputFile, final Integer duration) throws IOException;
 
     public void concatenate(final File inputFileList, final File outputFile) throws IOException;
 
-    public void stabilize(final File inputFile, final File outputFile) throws IOException;
+    public void stabilize(final File inputFile, final File outputFile, final File workingDir) throws IOException;
 
     public void rotate(final File inputFile, final File outputFile, final int degree) throws IOException;
 

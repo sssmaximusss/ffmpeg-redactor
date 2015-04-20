@@ -11,22 +11,21 @@ public class VideoStabilizer {
 
     private static final Logger logger = Logger.getLogger(VideoStabilizer.class);
 
-    private Redactor redactor;
+    private final Redactor redactor;
 
+    public VideoStabilizer(Redactor redactor) {
+        this.redactor = redactor;
+    }
 
-    public void stabilize (File inputFile, File outputFile) throws IOException {
+    public void stabilize(File inputFile, File outputFile) throws IOException {
 
         FileUtils fileUtils = new FileUtils();
         fileUtils.withTempDir( tempDir -> {
-
-            redactor = new RedactorImpl(tempDir.toFile(), "");
-
             try {
-                redactor.stabilize(inputFile, outputFile);
+                redactor.stabilize(inputFile, outputFile, tempDir.toFile());
             } catch (IOException e) {
                 logger.warn(e, e);
             }
-
         });
     }
 }

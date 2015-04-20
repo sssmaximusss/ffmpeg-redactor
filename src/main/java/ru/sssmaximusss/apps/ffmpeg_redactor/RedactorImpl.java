@@ -119,7 +119,8 @@ public class RedactorImpl implements Redactor {
         shellExecuter.executeAndWait(params, workingDir);
     }
 
-    public void resize(final File inputFile, final String outputFile, final int width, final int height) throws IOException {
+    public void resize(final File inputFile, final String outputFile, final File workingDir,
+                       final int width, final int height) throws IOException {
         List<String> params = new ArrayList<>();
 
         params.add(ffmpegCmd);
@@ -133,7 +134,8 @@ public class RedactorImpl implements Redactor {
         shellExecuter.executeAndWait(params, workingDir);
     }
 
-    public void imageSetToVideo(final String inputFilePattern, final File outputFile, final Integer duration) throws IOException {
+    public void imageSetToVideo(final String inputFilePattern, final File outputFile,
+            final File workingDir, final Integer duration) throws IOException {
         List<String> params = new ArrayList<>();
 
         params.add(ffmpegCmd);
@@ -196,7 +198,7 @@ public class RedactorImpl implements Redactor {
     }
 
 
-    public void stabilize(final File inputFile, final File outputFile)  throws IOException {
+    public void stabilize(final File inputFile, final File outputFile, final File workingDir)  throws IOException {
         List<String> params = new ArrayList<>();
 
         params.add(ffmpegCmd);

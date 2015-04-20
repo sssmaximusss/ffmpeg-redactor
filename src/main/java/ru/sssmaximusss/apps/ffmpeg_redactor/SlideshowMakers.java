@@ -14,27 +14,31 @@ public class SlideshowMakers {
     private static final Logger logger = Logger.getLogger(SlideshowMakers.class);
 
     private static final String tempImgFilePattern = "%05d.png";
-    private Redactor redactor;
+    private final Redactor redactor;
 
+    public SlideshowMakers(Redactor redactor) {
+        this.redactor = redactor;
+    }
 
-    public void createSimpleSlideshow (Iterable<File> inputFiles, File outputFile, String width, String height, String duration) throws IOException {
+    public void createSimpleSlideshow (
+            Iterable<File> inputFiles, File outputFile,
+            String width, String height, String duration) throws IOException
+    {
 
         FileUtils fileUtils = new FileUtils();
         fileUtils.withTempDir( tempDir -> {
-
-            redactor = new RedactorImpl(tempDir.toFile(), "");
-
             int fileNumber = 0;
             for (File inputFile : inputFiles) {
                 try {
-                    redactor.resize(inputFile, String.format(tempImgFilePattern, fileNumber++), Integer.valueOf(width), Integer.valueOf(height));
+                    redactor.resize(inputFile, String.format(tempImgFilePattern, fileNumber++), tempDir.toFile(),
+                            Integer.valueOf(width), Integer.valueOf(height));
                 } catch (IOException e) {
                     logger.warn(e, e);
                 }
             }
 
             try {
-                redactor.imageSetToVideo(tempImgFilePattern, outputFile, Integer.parseInt(duration));
+                redactor.imageSetToVideo(tempImgFilePattern, outputFile, tempDir.toFile(), Integer.parseInt(duration));
             } catch (IOException e) {
                 logger.warn(e, e);
             }
