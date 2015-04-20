@@ -52,6 +52,10 @@ public class ShellExecuter {
     }
 
 
+    public String executeAndWait(List<String> params) throws IOException {
+        return executeAndWait(params, null);
+    }
+
     public String executeAndWait(List<String> params, File dir) throws IOException {
 
         final Process process = execute(params, dir);

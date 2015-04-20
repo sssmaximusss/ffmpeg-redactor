@@ -18,19 +18,17 @@ public class RedactorImpl implements Redactor {
     public static final String DEFAULT_CMD_PLAY = "ffplay";
 
     private final ShellExecuter shellExecuter;
-    private final File workingDir;
 
     private final String ffmpegCmd;
     private final String ffprobeCmd;
     private final String ffplayCmd;
 
     public RedactorImpl() {
-        this(null, "");
+        this("");
     }
 
-    public RedactorImpl(File workingDir, String ffmpegPath) {
+    public RedactorImpl(String ffmpegPath) {
         this.shellExecuter = new ShellExecuter();
-        this.workingDir = workingDir;
         this.ffmpegCmd = ffmpegPath + DEFAULT_CMD_EXECUTE;
         this.ffprobeCmd = ffmpegPath + DEFAULT_CMD_GETINFO;
         this.ffplayCmd = ffmpegPath + DEFAULT_CMD_PLAY;
@@ -49,7 +47,7 @@ public class RedactorImpl implements Redactor {
         params.add("json");
         params.add("-v");
         params.add("quiet");
-        return shellExecuter.executeAndWait(params, workingDir);
+        return shellExecuter.executeAndWait(params);
 
     }
 
@@ -94,7 +92,7 @@ public class RedactorImpl implements Redactor {
 
         params.add(outputFile.getAbsolutePath());
 
-        return shellExecuter.executeAndWait(params, workingDir);
+        return shellExecuter.executeAndWait(params);
     }
 
     private int transformTime(String time) {
@@ -116,7 +114,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 
     public void resize(final File inputFile, final String outputFile, final File workingDir,
@@ -172,7 +170,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 
     /*
@@ -194,7 +192,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 
 
@@ -242,7 +240,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
 
     }
 
@@ -262,7 +260,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 
     @Override
@@ -279,7 +277,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 
     @Override
@@ -296,7 +294,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 
     @Override
@@ -313,7 +311,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 
     @Override
@@ -330,6 +328,6 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        shellExecuter.executeAndWait(params, workingDir);
+        shellExecuter.executeAndWait(params);
     }
 }
