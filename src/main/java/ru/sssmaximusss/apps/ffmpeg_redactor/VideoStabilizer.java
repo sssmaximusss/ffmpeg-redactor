@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class VideoStabilizer {
 
-    private  final Logger logger = Logger.getLogger(VideoStabilizer.class);
+    private static final Logger logger = Logger.getLogger(VideoStabilizer.class);
 
     private Redactor redactor;
 

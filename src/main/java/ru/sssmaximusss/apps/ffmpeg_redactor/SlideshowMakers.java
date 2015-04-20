@@ -11,8 +11,9 @@ import java.io.IOException;
  */
 public class SlideshowMakers {
 
+    private static final Logger logger = Logger.getLogger(SlideshowMakers.class);
+
     private static final String tempImgFilePattern = "%05d.png";
-    private final Logger logger = Logger.getLogger(SlideshowMakers.class);
     private Redactor redactor;
 
 
