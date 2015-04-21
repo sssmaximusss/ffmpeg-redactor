@@ -1,5 +1,7 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,12 +10,8 @@ import java.util.Map;
 
 public class ShellExecuter {
 
-    Map<String, String> env;
+    private static final Logger logger = Logger.getLogger(RedactorImpl.class);
     StringBuilder output;
-
-    public ShellExecuter() {
-        env = new HashMap<String, String>();
-    }
 
     private Process execute() throws IOException {
         List<String> noParams = Collections.emptyList();
@@ -32,21 +30,6 @@ public class ShellExecuter {
             // Actually sets not where the process will be executed, but where it would look for files
             processBuilder.directory(dir);
         }
-
-        // Do we actually need this?
-        /*
-        if (!env.isEmpty()) {
-            Map<String, String> currentEnv = processBuilder.environment();
-            for (String key : env.keySet()) {
-                currentEnv.put(key, env.get(key));
-            }
-        }
-        */
-
-        /*
-         Merging both StdOutStream and ErrorStream in one, so we could deal with them concurrently
-         */
-        //processBuilder.redirectErrorStream(true);
 
         return processBuilder;
     }
@@ -74,17 +57,11 @@ public class ShellExecuter {
             inputConsumer.join();
             errorConsumer.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.warn(e, e);
         }
 
         return output.toString();
     }
-
-    public void setEnvironmentVariable(String key, String value) {
-        env.put(key, value);
-    }
-
-
 
     private class StreamConsumer extends Thread {
         private InputStream inputStream;
@@ -103,12 +80,12 @@ public class ShellExecuter {
                     output.append("\n");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.warn(e, e);
             } finally {
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.warn(e, e);
                 }
             }
         }

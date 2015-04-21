@@ -1,5 +1,6 @@
 package ru.sssmaximusss.apps.ffmpeg_redactor;
 
+import org.apache.log4j.Logger;
 import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfo;
 import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfoDirector;
 import ru.sssmaximusss.apps.ffmpeg_redactor.Info.VideoInfoParser;
@@ -17,6 +18,7 @@ public class RedactorImpl implements Redactor {
     public static final String DEFAULT_CMD_GETINFO = "ffprobe";
     public static final String DEFAULT_CMD_PLAY = "ffplay";
 
+    private static final Logger logger = Logger.getLogger(RedactorImpl.class);
     private final ShellExecuter shellExecuter;
 
     private final String ffmpegCmd;
@@ -47,6 +49,13 @@ public class RedactorImpl implements Redactor {
         params.add("json");
         params.add("-v");
         params.add("quiet");
+
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         return shellExecuter.executeAndWait(params);
 
     }
@@ -92,6 +101,12 @@ public class RedactorImpl implements Redactor {
 
         params.add(outputFile.getAbsolutePath());
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         return shellExecuter.executeAndWait(params);
     }
 
@@ -114,6 +129,12 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         shellExecuter.executeAndWait(params);
     }
 
@@ -128,6 +149,12 @@ public class RedactorImpl implements Redactor {
         params.add("scale=" + width + ":" + height);
         params.add("-y");
         params.add(outputFile);
+
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
 
         shellExecuter.executeAndWait(params, workingDir);
     }
@@ -150,6 +177,12 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         shellExecuter.executeAndWait(params, workingDir);
     }
 
@@ -169,6 +202,12 @@ public class RedactorImpl implements Redactor {
         params.add("yuv420p");
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
+
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
 
         shellExecuter.executeAndWait(params);
     }
@@ -192,6 +231,12 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         shellExecuter.executeAndWait(params);
     }
 
@@ -209,6 +254,12 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add("temp.mp4");
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         shellExecuter.executeAndWait(params, workingDir);
 
         params = new ArrayList<>();
@@ -222,6 +273,12 @@ public class RedactorImpl implements Redactor {
         params.add("-strict");
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
+
+        cmdInfo.delete(0, cmdInfo.length());
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
 
         shellExecuter.executeAndWait(params, workingDir);
     }
@@ -239,6 +296,12 @@ public class RedactorImpl implements Redactor {
         params.add("-strict");
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
+
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
 
         shellExecuter.executeAndWait(params);
 
@@ -260,6 +323,12 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         shellExecuter.executeAndWait(params);
     }
 
@@ -276,6 +345,12 @@ public class RedactorImpl implements Redactor {
         params.add("-strict");
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
+
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
 
         shellExecuter.executeAndWait(params);
     }
@@ -294,6 +369,12 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         shellExecuter.executeAndWait(params);
     }
 
@@ -311,6 +392,12 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
+
         shellExecuter.executeAndWait(params);
     }
 
@@ -327,6 +414,12 @@ public class RedactorImpl implements Redactor {
         params.add("-strict");
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
+
+        StringBuilder cmdInfo = new StringBuilder();
+        for(String param : params) {
+            cmdInfo.append(param + " ");
+        }
+        logger.info("Run command:    " + cmdInfo);
 
         shellExecuter.executeAndWait(params);
     }
