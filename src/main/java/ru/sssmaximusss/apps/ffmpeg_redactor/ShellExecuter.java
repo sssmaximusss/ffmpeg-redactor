@@ -82,6 +82,7 @@ public class ShellExecuter {
             } catch (IOException e) {
                 logger.warn(e, e);
             } finally {
+                logger.info(output);
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
