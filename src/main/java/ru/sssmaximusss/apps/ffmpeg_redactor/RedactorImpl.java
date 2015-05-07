@@ -50,11 +50,7 @@ public class RedactorImpl implements Redactor {
         params.add("-v");
         params.add("quiet");
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         return shellExecuter.executeAndWait(params);
 
@@ -101,11 +97,7 @@ public class RedactorImpl implements Redactor {
 
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         return shellExecuter.executeAndWait(params);
     }
@@ -129,11 +121,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
     }
@@ -150,17 +138,13 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile);
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params, workingDir);
     }
 
     public void imageSetToVideo(final String inputFilePattern, final File outputFile,
-            final File workingDir, final Integer duration) throws IOException {
+                                final File workingDir, final Integer duration) throws IOException {
         List<String> params = new ArrayList<>();
 
         params.add(ffmpegCmd);
@@ -177,11 +161,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params, workingDir);
     }
@@ -203,11 +183,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
     }
@@ -231,11 +207,7 @@ public class RedactorImpl implements Redactor {
         params.add("-y");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
     }
@@ -254,11 +226,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add("temp.mp4");
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params, workingDir);
 
@@ -274,11 +242,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        cmdInfo.delete(0, cmdInfo.length());
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params, workingDir);
     }
@@ -297,11 +261,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
 
@@ -323,11 +283,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
     }
@@ -346,11 +302,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
     }
@@ -369,11 +321,7 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
     }
@@ -392,17 +340,13 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
-        StringBuilder cmdInfo = new StringBuilder();
-        for(String param : params) {
-            cmdInfo.append(param + " ");
-        }
-        logger.info("Run command:    " + cmdInfo);
+        logCommand(params);
 
         shellExecuter.executeAndWait(params);
     }
 
     @Override
-    public void setAllSetting(File inputFile, File outputFile, float contrast, float brightness, float saturation) throws IOException {
+    public void setAllSetting(final File inputFile, final File outputFile, final float contrast, final float brightness, final float saturation) throws IOException {
         List<String> params = new ArrayList<>();
 
         params.add(ffmpegCmd);
@@ -415,12 +359,16 @@ public class RedactorImpl implements Redactor {
         params.add("-2");
         params.add(outputFile.getAbsolutePath());
 
+        logCommand(params);
+
+        shellExecuter.executeAndWait(params);
+    }
+
+    private void logCommand(List<String> params) {
         StringBuilder cmdInfo = new StringBuilder();
         for(String param : params) {
             cmdInfo.append(param + " ");
         }
         logger.info("Run command:    " + cmdInfo);
-
-        shellExecuter.executeAndWait(params);
     }
 }
